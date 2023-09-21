@@ -7,9 +7,9 @@ import {async} from '@firebase/util';
 const Show = () => {
     //1. config de hooks
     const [empresas, setEmpresas] = useState([]);
-    //const mostrarEmpresa = ;
-
-
+    const [empresasE, setEmpresasE] = useState([]);
+    const [filterRow2, setFilterRow2] = useState([]);
+    const [filterRow3, setFilterRow3] = useState([]);
     //2. se referencia DB de firestore
     const emp_collection = collection(db, "empresas");
 
@@ -23,8 +23,41 @@ const Show = () => {
       console.log(empresas);
     }
     
+    
+    //4. se crea función para mostrar cada empresa sin repetirla (empresa espesifica)
+    
+    const getEmpresasE = async () => {
+      
+      setEmpresasE(
+        empresas.map((es_emp) => ({ ... es_emp.data(), id: es_emp.id}))
+      );
+    }
+    
+    
+    
+    //5. se crea función para mostrar y calcular ventas totales por empresa
+    const getTVentas = async () => {
+        const data3= await getDocs(emp_collection); 
+        setEmpresas(
+          data3.docs.map((doc)=>({ ... doc.data(), id: doc.id}))
+        );
+        console.log(empresas);
+      }
+    
+    //6. se crea función para mostrar y calcular comision por empresa
+    const getTComision = async () => {
+        const data4= await getDocs(emp_collection); 
+        setEmpresas(
+          data4.docs.map((doc)=>({ ... doc.data(), id: doc.id}))
+        )
+      console.log(empresas);
+    }
+    
+    
+    
     useEffect(() => {
       getEmpresas();
+      //getEmpresasE();
     }, [])
     
 
